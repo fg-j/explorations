@@ -43,7 +43,8 @@ installed.
 
 ### Detecting Emacs Org-mode (does this require a dependency?)
 
-### Detecting RST Seems like this is a thing that relies on Python to be
+### Detecting RST
+Seems like this is a thing that relies on Python to be
 converted to HTML. Expect the docs to be `*.py` files that include something
 like: ``` __docformat__ = 'restructuredtext' ```
 
