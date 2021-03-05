@@ -1,0 +1,4 @@
+{
+  "httpd": "github.com/paketo-buildpacks/httpd",
+  "builder": "index.docker.io/paketobuildpacks/builder:full"
+}
