@@ -112,4 +112,14 @@ func testDetect(t *testing.T, context spec.G, it spec.S) {
 			Expect(err).To(MatchError(ContainSubstring("no *.md or *.html files found in content dir")))
 		})
 	})
+	context("failure cases", func() {
+		context("search for *md and *html files fails", func() {
+			it("returns the error", func() {
+				_, err := detect(packit.DetectContext{
+					WorkingDir: `\/\/`,
+				})
+				Expect(err).To(MatchError(ContainSubstring("syntax error in pattern")))
+			})
+		})
+	})
 }

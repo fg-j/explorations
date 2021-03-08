@@ -6,12 +6,11 @@ import (
 	"github.com/paketo-buildpacks/packit/cargo"
 	"github.com/paketo-buildpacks/packit/draft"
 	"github.com/paketo-buildpacks/packit/pexec"
-	"github.com/paketo-buildpacks/packit/postal"
 )
 
 func main() {
 	entryResolver := draft.NewPlanner()
-	dependencyManager := postal.NewService(cargo.NewTransport())
+	dependencyManager := hugobuildpack.NewHugoDependencyManager(cargo.NewTransport())
 	packit.Run(hugobuildpack.Detect(),
 		hugobuildpack.Build(entryResolver, dependencyManager, pexec.NewExecutable("hugo")),
 	)

@@ -1,6 +1,7 @@
 package hugobuildpack_test
 
 import (
+	"errors"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -89,15 +90,15 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 		Expect(result).To(Equal(packit.BuildResult{
 			Plan: packit.BuildpackPlan{
 				// Entries: []packit.BuildpackPlanEntry{
-				// 	{
-				// 		Name: "hugo",
-				// 		Metadata: map[string]interface{}{
-				// 			"name":   "hugo-dependency-name",
-				// 			"sha256": "hugo-dependency-sha",
-				// 			"stacks": []string{"some-stack"},
-				// 			"uri":    "hugo-dependency-uri",
-				// 		},
+				// {
+				// 	Name: "hugo",
+				// 	Metadata: map[string]interface{}{
+				// 		"name":   "hugo-dependency-name",
+				// 		"sha256": "hugo-dependency-sha",
+				// 		"stacks": []string{"some-stack"},
+				// 		"uri":    "hugo-dependency-uri",
 				// 	},
+				// },
 				// },
 			},
 			Layers: []packit.Layer{
@@ -110,12 +111,130 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 					Build:     false,
 					Launch:    false,
 					Cache:     false,
-					// Metadata:  map[string]interface{}{
+					// Metadata: map[string]interface{}{
 					// 	"dependency-sha": "hugo-dependency-sha",
 					// 	"built_at":       timestamp.Format(time.RFC3339Nano),
 					// },
 				},
 			},
 		}))
+	})
+
+	context("failure cases", func() {
+		context("dependency resolution fails", func() {
+			it.Before(func() {
+				dependencyManager.ResolveCall.Returns.Error = errors.New("dependency resolution error")
+			})
+
+			it("fails to build with the appropriate error", func() {
+				_, err := build(packit.BuildContext{
+					WorkingDir: workingDir,
+					CNBPath:    cnbDir,
+					Stack:      "some-stack",
+					BuildpackInfo: packit.BuildpackInfo{
+						Name:    "Some Buildpack",
+						Version: "some-version",
+					},
+					Plan: packit.BuildpackPlan{
+						Entries: []packit.BuildpackPlanEntry{
+							{
+								Name: "hugo",
+							},
+						},
+					},
+					Layers: packit.Layers{Path: layersDir},
+				})
+
+				Expect(err).To(MatchError(ContainSubstring("dependency resolution error")))
+			})
+		})
+
+		context("layer cannot be read/written", func() {
+			it.Before(func() {
+				Expect(os.Chmod(layersDir, 0000)).To(Succeed())
+			})
+
+			it.After(func() {
+				Expect(os.Chmod(layersDir, os.ModePerm)).To(Succeed())
+			})
+
+			it("fails to build with the appropriate error", func() {
+				_, err := build(packit.BuildContext{
+					WorkingDir: workingDir,
+					CNBPath:    cnbDir,
+					Stack:      "some-stack",
+					BuildpackInfo: packit.BuildpackInfo{
+						Name:    "Some Buildpack",
+						Version: "some-version",
+					},
+					Plan: packit.BuildpackPlan{
+						Entries: []packit.BuildpackPlanEntry{
+							{
+								Name: "hugo",
+							},
+						},
+					},
+					Layers: packit.Layers{Path: layersDir},
+				})
+
+				Expect(err).To(MatchError(ContainSubstring("permission denied")))
+			})
+		})
+
+		context("dependency installation fails", func() {
+			it.Before(func() {
+				dependencyManager.InstallCall.Returns.Error = errors.New("dependency installation error")
+			})
+
+			it("fails to build with the appropriate error", func() {
+				_, err := build(packit.BuildContext{
+					WorkingDir: workingDir,
+					CNBPath:    cnbDir,
+					Stack:      "some-stack",
+					BuildpackInfo: packit.BuildpackInfo{
+						Name:    "Some Buildpack",
+						Version: "some-version",
+					},
+					Plan: packit.BuildpackPlan{
+						Entries: []packit.BuildpackPlanEntry{
+							{
+								Name: "hugo",
+							},
+						},
+					},
+					Layers: packit.Layers{Path: layersDir},
+				})
+
+				Expect(err).To(MatchError(ContainSubstring("dependency installation error")))
+			})
+		})
+
+		context("hugo process execution fails", func() {
+			it.Before(func() {
+				executable.ExecuteCall.Returns.Error = errors.New("hugo error")
+			})
+
+			it("fails to build with the appropriate error", func() {
+				_, err := build(packit.BuildContext{
+					WorkingDir: workingDir,
+					CNBPath:    cnbDir,
+					Stack:      "some-stack",
+					BuildpackInfo: packit.BuildpackInfo{
+						Name:    "Some Buildpack",
+						Version: "some-version",
+					},
+					Plan: packit.BuildpackPlan{
+						Entries: []packit.BuildpackPlanEntry{
+							{
+								Name: "hugo",
+							},
+						},
+					},
+					Layers: packit.Layers{Path: layersDir},
+				})
+
+				Expect(err).To(MatchError(ContainSubstring("hugo error")))
+			})
+		})
 	})
 }

@@ -10,7 +10,6 @@ func Detect() packit.DetectFunc {
 	return func(context packit.DetectContext) (packit.DetectResult, error) {
 		files, err := filepath.Glob(filepath.Join(context.WorkingDir, "content", "*.md"))
 		if err != nil {
-			panic(err)
 			return packit.DetectResult{}, err
 		}
 

@@ -7,7 +7,6 @@ import (
 	"path/filepath"
 
 	"github.com/paketo-buildpacks/packit"
-	"github.com/paketo-buildpacks/packit/fs"
 	"github.com/paketo-buildpacks/packit/pexec"
 	"github.com/paketo-buildpacks/packit/postal"
 )
@@ -42,20 +41,18 @@ func Build(entryResolver EntryResolver, dependencyManager DependencyManager, hug
 			entryVersion,
 			context.Stack)
 		if err != nil {
-			panic(err)
 			return packit.BuildResult{}, err
 		}
 
 		// install hugo
 		hugoLayer, err := context.Layers.Get("hugo")
 		if err != nil {
-			panic(err)
 			return packit.BuildResult{}, err
 		}
 
 		hugoLayer, err = hugoLayer.Reset()
 		if err != nil {
-			panic(err)
+			return packit.BuildResult{}, err
 		}
 
 		launch, build := entryResolver.MergeLayerTypes("hugo", context.Plan.Entries)
@@ -67,25 +64,9 @@ func Build(entryResolver EntryResolver, dependencyManager DependencyManager, hug
 
 		err = dependencyManager.Install(dependency, context.CNBPath, hugoLayer.Path)
 		if err != nil {
-			panic(err)
-		}
-		err = os.Mkdir(filepath.Join(hugoLayer.Path, "bin"), os.ModePerm)
-		if err != nil {
-			panic(err)
-		}
-		err = fs.Move(filepath.Join(hugoLayer.Path, "hugo"), filepath.Join(hugoLayer.Path, "bin", "hugo"))
-		if err != nil {
-			panic(err)
 			return packit.BuildResult{}, err
 		}
 
-		err = filepath.Walk(hugoLayer.Path, func(path string, info os.FileInfo, err error) error {
-			fmt.Println(path)
-			return nil
-		})
-		if err != nil {
-			panic(err)
-		}
 		// logger.Action("Completed in %s", duration.Round(time.Millisecond))
 		// logger.Break()
 
@@ -108,7 +89,7 @@ func Build(entryResolver EntryResolver, dependencyManager DependencyManager, hug
 		})
 
 		if err != nil {
-			panic(err)
+			return packit.BuildResult{}, err
 		}
 
 		return packit.BuildResult{
