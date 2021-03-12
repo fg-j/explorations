@@ -26,7 +26,7 @@ func testDetect(t *testing.T, context spec.G, it spec.S) {
 		workingDir, err = ioutil.TempDir("", "working-dir")
 		Expect(err).NotTo(HaveOccurred())
 
-		Expect(os.Mkdir(filepath.Join(workingDir, "content"), os.ModePerm)).To(Succeed())
+		Expect(os.MkdirAll(filepath.Join(workingDir, "content", "subdirectory"), os.ModePerm)).To(Succeed())
 		Expect(err).NotTo(HaveOccurred())
 
 		detect = hugobuildpack.Detect()
@@ -36,9 +36,9 @@ func testDetect(t *testing.T, context spec.G, it spec.S) {
 		Expect(os.RemoveAll(workingDir)).To(Succeed())
 	})
 
-	context("when the app contains a content directory with at least one *.md file", func() {
+	context("when the app contains a content directory with at least one *.md file in a subdirectory", func() {
 		it.Before(func() {
-			Expect(ioutil.WriteFile(filepath.Join(workingDir, "content", "hello.md"), nil, os.ModePerm)).To(Succeed())
+			Expect(ioutil.WriteFile(filepath.Join(workingDir, "content", "subdirectory", "hello.md"), nil, os.ModePerm)).To(Succeed())
 		})
 
 		it("detects", func() {
@@ -72,7 +72,7 @@ func testDetect(t *testing.T, context spec.G, it spec.S) {
 
 	context("when the app contains a content directory with at least one *.html file", func() {
 		it.Before(func() {
-			Expect(ioutil.WriteFile(filepath.Join(workingDir, "content", "index.html"), nil, os.ModePerm)).To(Succeed())
+			Expect(ioutil.WriteFile(filepath.Join(workingDir, "content", "subdirectory", "index.html"), nil, os.ModePerm)).To(Succeed())
 		})
 
 		it("detects", func() {
@@ -118,7 +118,7 @@ func testDetect(t *testing.T, context spec.G, it spec.S) {
 				_, err := detect(packit.DetectContext{
 					WorkingDir: `\/\/`,
 				})
-				Expect(err).To(MatchError(ContainSubstring("syntax error in pattern")))
+				Expect(err).To(MatchError(ContainSubstring("no such file or directory")))
 			})
 		})
 	})
