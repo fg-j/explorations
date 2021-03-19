@@ -69,3 +69,9 @@ it? We might be able to leverage those and create start command buildpacks that
 set up source code watching AND make the appropriate run-time dependency
 requirements along the way.
 
+In the case of dotnet, since the `dotnet watch run` command handles pulling in
+NuGet packages, it's simpler to hand off the rebuild task to the language
+family tooling.  For something like the Nodejs language family, where
+`node_modules` are managed by the `npm install` and `yarn install` buildpacks,
+changing source code could more frequently result in a container that lacks
+needed vendored dependencies
