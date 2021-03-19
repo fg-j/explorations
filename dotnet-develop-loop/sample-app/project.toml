@@ -6,16 +6,16 @@ version = "0.0.1"
 [build]
 
 [[build.buildpacks]]
-uri = "paketobuildpacks/dotnet-core-runtime:latest"
+uri = "docker://paketobuildpacks/dotnet-core-runtime:latest"
 
 [[build.buildpacks]]
-uri = "paketobuildpacks/dotnet-core-aspnet:latest"
+uri = "docker://paketobuildpacks/dotnet-core-aspnet:latest"
 
 [[build.buildpacks]]
-uri = "paketobuildpacks/dotnet-core-sdk:latest"
+uri = "docker://paketobuildpacks/dotnet-core-sdk:latest"
 
 [[build.buildpacks]]
-uri = "paketobuildpacks/icu:latest"
+uri = "docker://paketobuildpacks/icu:latest"
 
 [[build.buildpacks]]
 uri = "gcr.io/paketo-buildpacks/procfile"
