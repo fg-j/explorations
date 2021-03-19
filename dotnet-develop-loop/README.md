@@ -41,7 +41,7 @@ resolver](https://github.com/paketo-buildpacks/dotnet-core-runtime/blob/main/pla
 
 #### Using Procfile
 Since the Dotnet Execute buildpack was excluded from the build order, the
-buildpack had no default process. I used a Procfile to run `cd src && dotnet
+container had no default process. I used a Procfile to run `cd src && dotnet
 watch run`. This is a bit brittle because it requires a user to know that the
 working directory of the launch process will contain their app.
 
@@ -61,7 +61,7 @@ similar detection logic as the Dotnet Execute and Dotnet Publish buildpacks
 could do a lot to make this less hacky.  The buildpack could parse project
 files, etc. to make proper version requirements and set the `dotnet watch run`
 start command. This would eliminate the need for the Build Plan and Procfile
-buildpacks.
+buildpacks to get this example working.
 
 ### Remaining Questions
 Do other language families have similar commands that watch source and rebuild
