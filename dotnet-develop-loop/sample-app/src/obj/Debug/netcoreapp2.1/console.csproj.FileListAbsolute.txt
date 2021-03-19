@@ -1,0 +1,11 @@
+/workspace/src/bin/Debug/netcoreapp2.1/console.deps.json
+/workspace/src/bin/Debug/netcoreapp2.1/console.runtimeconfig.json
+/workspace/src/bin/Debug/netcoreapp2.1/console.runtimeconfig.dev.json
+/workspace/src/bin/Debug/netcoreapp2.1/console.dll
+/workspace/src/bin/Debug/netcoreapp2.1/console.pdb
+/workspace/src/obj/Debug/netcoreapp2.1/console.csprojAssemblyReference.cache
+/workspace/src/obj/Debug/netcoreapp2.1/console.csproj.CoreCompileInputs.cache
+/workspace/src/obj/Debug/netcoreapp2.1/console.AssemblyInfoInputs.cache
+/workspace/src/obj/Debug/netcoreapp2.1/console.AssemblyInfo.cs
+/workspace/src/obj/Debug/netcoreapp2.1/console.dll
+/workspace/src/obj/Debug/netcoreapp2.1/console.pdb

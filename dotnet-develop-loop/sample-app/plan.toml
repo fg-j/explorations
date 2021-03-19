@@ -1,0 +1,29 @@
+[[ requires ]]
+  name = "dotnet-runtime"
+
+  [requires.metadata]
+    launch=true
+    build=true
+    version = "2.1.*"
+    version-source = "console.csproj"
+
+[[ requires ]]
+  name = "dotnet-sdk"
+
+  [requires.metadata]
+    launch=true
+    build=true
+
+[[ requires ]]
+  name = "dotnet-aspnetcore"
+
+  [requires.metadata]
+    launch=true
+    build=true
+
+[[ requires ]]
+  name = "icu"
+
+  [requires.metadata]
+    launch=true
+    build=true

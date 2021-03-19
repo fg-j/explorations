@@ -1,0 +1,69 @@
+{
+  "format": 1,
+  "restore": {
+    "/workspace/src/console.csproj": {}
+  },
+  "projects": {
+    "/workspace/src/console.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/workspace/src/console.csproj",
+        "projectName": "console",
+        "projectPath": "/workspace/src/console.csproj",
+        "packagesPath": "/home/cnb/.nuget/packages/",
+        "outputPath": "/workspace/src/obj/",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "/layers/paketo-buildpacks_dotnet-core-sdk/dotnet-core-sdk/sdk/NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "/home/cnb/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp2.1"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp2.1": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp2.1": {
+          "dependencies": {
+            "Microsoft.AspNetCore.Server.IISIntegration": {
+              "target": "Package",
+              "version": "(, )"
+            },
+            "Microsoft.AspNetCore.Server.Kestrel": {
+              "target": "Package",
+              "version": "(, )"
+            },
+            "Microsoft.Extensions.Configuration.CommandLine": {
+              "target": "Package",
+              "version": "(, )"
+            },
+            "Microsoft.NETCore.App": {
+              "target": "Package",
+              "version": "[2.1.*, )",
+              "autoReferenced": true
+            }
+          },
+          "imports": [
+            "net461"
+          ],
+          "assetTargetFallback": true,
+          "warn": true
+        }
+      }
+    }
+  }
+}
