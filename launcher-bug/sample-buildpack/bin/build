@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+set -eo pipefail
+
+echo "---> Process-setting Buildpack"
+
+#  GET ARGS
+layersdir=$1
+
+#  CREATE THE LAYER DIRECTORY
+processlayer="$layersdir"/ruby
+mkdir -p "$processlayer"
+
+#  MAKE LAYER AVAILABLE DURING LAUNCH
+echo -e '[types]\nlaunch = true' > "$layersdir/ruby.toml"
+
+# SET WORKING DEFAULT START COMMAND
+cat > "$layersdir/launch.toml" << EOL
+[[processes]]
+type = "default-process"
+command = "/workspace/entrypoint.sh"
+default = true
+EOL
+
+# Replace start command block above with block below...
+# # SET BROKEN DEFAULT START COMMAND
+# cat > "$layersdir/launch.toml" << EOL
+# [[processes]]
+# type = "default-process"
+# command = "/workspace/entrypoint.sh"
+# default = true
+# EOL
+
+exit 0
+
