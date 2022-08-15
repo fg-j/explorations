@@ -21,11 +21,11 @@ command = "/workspace/entrypoint.sh"
 default = true
 EOL
 
-# Replace start command block above with block below...
+# Replace start command block above with block below. Note the process type contains a '.'
 # # SET BROKEN DEFAULT START COMMAND
 # cat > "$layersdir/launch.toml" << EOL
 # [[processes]]
-# type = "default-process"
+# type = "default.process"
 # command = "/workspace/entrypoint.sh"
 # default = true
 # EOL
